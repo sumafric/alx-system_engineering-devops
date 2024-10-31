@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# This script prints "Die" 4th iteration, "bye bye" on the 8th iteration, and "Best School" for other iterationsa
+a=1
+while [ $a -le 10 ]
+do
+    if [ $a -eq 4 ]
+    then
+        echo "Die"
+    elif [ $a -eq 8 ]
+    then
+        echo "bye bye"
+    else
+        echo "Best School"
+    fi
+    a=$(( a + 1 ))
+done
