@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# This script prints "Die" 4th iteration, "bye bye" on the 8th iteration, and "Best School" for other iterationsa
+# This script prints "bad luck" 4th iteration, "good luck" on the 8th iteration, and "Best School" for other iterationsa
 a=1
 while [ $a -le 10 ]
 do
     if [ $a -eq 4 ]
     then
-        echo "Die"
+        echo "bad luck"
     elif [ $a -eq 8 ]
     then
-        echo "bye bye"
+        echo "good luck"
     else
         echo "Best School"
     fi
