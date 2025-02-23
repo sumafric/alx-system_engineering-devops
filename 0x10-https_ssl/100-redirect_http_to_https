@@ -1,0 +1,42 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats timeout 30s
+    stats socket /var/run/haproxy.sock mode 600 level admin
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    option httplog
+    option dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+frontend http_front
+    bind *:80
+    mode http
+    option httplog
+    http-request redirect scheme https code 301 if { hdr(Host) -i www.sumafric.tech }
+
+frontend https_front
+    bind *:443 ssl crt /etc/letsencrypt/live/www.sumafric.tech/haproxy.pem
+    option http-server-close
+    mode http
+    option forwardfor
+    acl is_root path /
+    use_backend root_backend if is_root
+    default_backend web-backend
+
+backend root_backend
+    mode http
+    server root_server 127.0.0.1:80
+
+backend web-backend
+    mode http
+    server 806422-web-01 54.175.159.241:80 check
+    server 806422-web-02 100.25.221.54:80 check
+    balance roundrobin
